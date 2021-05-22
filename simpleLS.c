@@ -11,7 +11,9 @@ int main (int argc, char *argv[]) {
     struct dirent *dirp;
 
     int printSizes = 1;
+    int printOwner = 1;
     long long fileSize;
+    int ownerID;
     struct stat buffer;
     int statRet; 
 
@@ -21,9 +23,12 @@ int main (int argc, char *argv[]) {
         return 1;
     }
     
-    if (printSizes) {
+    if (printSizes || printOwner) {
         statRet = stat("/home/mday39/add-to-landscape.sh", &buffer);
-        fileSize = buffer.st_size;
+        if (printSizes)
+            fileSize = buffer.st_size;
+        if (printOwner)
+            ownerID = buffer.st_uid;
     } 
     
     if ((dp = opendir(argv[1])) == NULL) {
